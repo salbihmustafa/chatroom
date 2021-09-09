@@ -22,4 +22,15 @@ button {
     border: 0;
     border-radius: 20px;
     padding: 10px 20px;
+    font-size: 20px;
+}
+
+.alt-form {
+    cursor: pointer;
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+.alt-form:hover {
+    color: rgb(187, 187, 187);
 }
