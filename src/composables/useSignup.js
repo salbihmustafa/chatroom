@@ -11,12 +11,12 @@ const signup = async (email, password, displayName) => {
     try {
         const response = await createUserWithEmailAndPassword(projectAuth, email, password); //goes to firebase
         if (!response) {
-            throw new Error('Could not complete signup');
+            throw new Error('Could not complete signup'); //goes to catch block
         }
         await updateProfile(response.user, {
             displayName: displayName //update with user input displayName
         })
-        error.value = null;
+        error.value = null; //reset error message
 
         console.log(response.user);
 
