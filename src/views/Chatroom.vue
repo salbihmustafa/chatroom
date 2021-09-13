@@ -1,11 +1,13 @@
 <template>
   <div class="container">
     <Navbar />
+    <NewChatRoom />
   </div>
 </template>
 
 <script>
 import Navbar from '../components/Navbar.vue';
+import NewChatRoom from '../components/NewChatForm.vue';
 import getUser from '../composables/getUser.js';
 import { watchEffect, ref } from 'vue';
 import { useRouter } from 'vue-router';
@@ -13,6 +15,7 @@ import { useRouter } from 'vue-router';
 export default {
   components: {
     Navbar,
+    NewChatRoom
   },
   setup() {
     const { user } = getUser(); //get the user
