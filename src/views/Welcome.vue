@@ -23,7 +23,7 @@ import { useRouter } from 'vue-router';
 export default {
   components: {SignupForm, LoginForm},
   setup(){
-    const showLogin = ref(true);
+    const showLogin = ref(true); //toggles between true/false - true if login page false if signup page
     const router = useRouter();
 
     const enterChat = () => {
