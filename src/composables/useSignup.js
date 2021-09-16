@@ -1,6 +1,5 @@
 import { ref } from 'vue';
 import { projectAuth } from '../firebase/config';
-import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 
 const error = ref(null);
 
@@ -9,17 +8,12 @@ const signup = async (email, password, displayName) => {
     error.value = null; //will reset the error message
 
     try {
-        const response = await createUserWithEmailAndPassword(projectAuth, email, password); //goes to firebase
+        const response = await projectAuth.createUserWithEmailAndPassword(email, password); //goes to firebase
         if (!response) {
             throw new Error('Could not complete signup'); //goes to catch block
         }
-        await updateProfile(response.user, {
-            displayName: displayName //update with user input displayName
-        })
+        await response.user.updateProfile({ displayName });//update with user input displayName
         error.value = null; //reset error message
-
-        console.log(response.user);
-
         return response; //returns entire response
     } catch (err) {
         debugger;

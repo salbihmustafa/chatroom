@@ -13,7 +13,7 @@
 import { ref } from "vue";
 import getUser from "../composables/getUser.js";
 import useCollection from "../composables/useCollection.js";
-import { timestamp } from "../firebase/config";
+import { timestamp } from '../firebase/config.js';
 
 export default {
   setup() {
@@ -22,11 +22,10 @@ export default {
     const { addDocument, error } = useCollection('message');
 
     const handleSubmit = async () => {
-      console.log(timestamp);
       let chat = {
         user: user.value.displayName,
         message: message.value,
-        createdAt: timestamp
+        createdAt: timestamp()
       };
       
       await addDocument(chat); //send to useCollection.js
