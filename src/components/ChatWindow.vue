@@ -18,7 +18,6 @@ import { computed, onUpdated, ref } from 'vue';
 
 export default {
     setup(){
-        debugger;
         const { error, documents } = getCollection('message');
 
         const formattedDocuments = computed(() => {

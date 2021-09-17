@@ -6,7 +6,6 @@ import { projectAuth } from '../firebase/config'
 //auth guard
 const requireAuth = (to, from, next) => {
   let user = projectAuth.currentUser; //get current user
-  console.log('Current user in auth guard: ', user);
   if(!user){
     //if user is null
     next({ name: 'Welcome' }); //redirect to welcome page
@@ -15,11 +14,22 @@ const requireAuth = (to, from, next) => {
   }
 }
 
+const requireNoAuth = (to, from, next) => {
+  let user = projectAuth.currentUser; //get current user
+  if(user){
+    //if user is logged in
+    next({ name: 'Chatroom' }); //redirect to chatroom page
+  }else{
+    next(); //this will carry on to go to the route it needs to
+  }
+} 
+
 const routes = [
   {
     path: '/',
     name: 'Welcome',
-    component: Welcome
+    component: Welcome,
+    beforeEnter: requireNoAuth //users that are already logged in should not be able to leave chatroom unless they logout
   },
   {
     path: '/chatroom',
