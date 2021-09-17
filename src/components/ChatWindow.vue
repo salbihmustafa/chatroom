@@ -1,10 +1,10 @@
 <template>
     <div class="chat-window">
         <div v-if="error">{{error}}</div>
-        <div v-if="documents" class="messages">
-            <div v-for="doc in documents" :key="doc.id" class="single">
+        <div v-if="documents" class="messages" ref="messages">
+            <div v-for="doc in formattedDocuments" :key="doc.id" class="single">
                 <span class="created-at">{{doc.createdAt}}</span>
-                <span class="name">{{doc.name}}</span>
+                <span class="name">{{doc.user}}</span>
                 <span class="message">{{doc.message}}</span>
             </div>
         </div>
@@ -13,17 +13,60 @@
 
 <script>
 import getCollection from '../composables/getCollection.js';
+import { formatDistanceToNow } from 'date-fns';
+import { computed, onUpdated, ref } from 'vue';
 
 export default {
     setup(){
         debugger;
-        const { error, documents } = getCollection('messages');
+        const { error, documents } = getCollection('message');
 
-        return { error, documents }
+        const formattedDocuments = computed(() => {
+            if(documents.value){
+                //only if documents exists
+                return documents.value.map(doc => {
+                    let time = formatDistanceToNow(doc.createdAt.toDate());
+                    return { ...doc, createdAt: time } //spreads whatever is in doc into an array, and overwrites createdAt
+                })
+            }
+        })
+
+        //auto-scroll to bottom of messages
+        const messages = ref(null); //this will reference the ref="messages"
+
+        onUpdated(() => {
+            messages.value.scrollTop = messages.value.scrollHeight; //scroll right to the bottom
+        })
+
+        return { error, documents, formattedDocuments, messages }
     }
 }
 </script>
 
 <style>
+.chat-window{
+    background: #fafafa;
+    padding: 30px 20px;
+}
 
+.single{
+    margin: 18px 0;
+}
+
+.created-at {
+    display: block;
+    color: #999;
+    font-size: 12px;
+    margin-bottom: 4px;
+}
+
+.name {
+    font-weight: bold;
+    margin-right: 6px;
+}
+
+.messages {
+    max-height: 400px;
+    overflow: auto;
+}
 </style>
