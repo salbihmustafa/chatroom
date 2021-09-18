@@ -2,12 +2,12 @@
   <div class="welcome container">
       <p>Welcome</p>
       <div v-if="showLogin">
-        <h1>Login</h1>
+        <h1>Login to the chatroom</h1>
         <LoginForm @login="enterChat" />
         <p>No account yet? <span class="alt-form" @click="showLogin = false">Sign Up</span></p>
       </div>
       <div v-else>
-        <h1>Sign Up</h1>
+        <h1>Sign Up to the chatroom</h1>
         <SignupForm @signup="enterChat" />
         <p>Have an account? <span class="alt-form" @click="showLogin = true">Login</span></p>
       </div>
